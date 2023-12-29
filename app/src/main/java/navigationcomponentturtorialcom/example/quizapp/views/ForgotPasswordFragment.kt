@@ -44,6 +44,4 @@ class ForgotPasswordFragment : Fragment() {
             navController.navigate(R.id.action_forgotPasswordFragment_to_signInFragment)
         }
     }
-
-
 }
