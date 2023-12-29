@@ -5,7 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.launch
 import navigationcomponentturtorialcom.example.quizapp.repository.AuthRepository
 
 class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() { // chứa ngữ cảnh của ứng dụng
@@ -24,6 +26,12 @@ class AuthViewModel(private val authRepository: AuthRepository) : ViewModel() { 
                 _errorMessageLiveData.postValue(errorMessage)
             }
         )
+    }
+
+    fun sendEmailToResetPassword(email: String) {
+        viewModelScope.launch {
+           authRepository.sendEmailToResetPassword(email)
+        }
     }
 
     fun signUp(email: String, password: String) {

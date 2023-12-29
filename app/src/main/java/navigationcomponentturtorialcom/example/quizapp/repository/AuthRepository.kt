@@ -1,8 +1,6 @@
 package navigationcomponentturtorialcom.example.quizapp.repository
 
-import android.app.Application
-import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
@@ -10,7 +8,8 @@ class AuthRepository() {
     //    val firebaseUserMutableLiveData = MutableLiveData<FirebaseUser>()
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    fun signUp(email: String, password: String,
+    fun signUp(
+        email: String, password: String,
         onComplete: (FirebaseUser?) -> Unit,
         onError: (String) -> Unit
     ) {
@@ -25,7 +24,8 @@ class AuthRepository() {
             }
     }
 
-    fun signIn(email: String, password: String,
+    fun signIn(
+        email: String, password: String,
         onComplete: (FirebaseUser?) -> Unit,
         onError: (String) -> Unit
     ) {
@@ -39,6 +39,21 @@ class AuthRepository() {
                 }
             }
     }
+
+    fun sendEmailToResetPassword(email: String?): Boolean {
+        if (email != null && email.isNotEmpty()) {
+            firebaseAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d("SendEmailResetPassword", "Email sent.")
+                    }
+                }
+            return true
+        } else {
+            return false
+        }
+    }
+
 
     fun signOut() {
         firebaseAuth.signOut()

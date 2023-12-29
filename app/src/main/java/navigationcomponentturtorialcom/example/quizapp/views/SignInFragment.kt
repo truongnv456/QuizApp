@@ -43,6 +43,7 @@ class SignInFragment : Fragment() {
     private lateinit var tvSignUp: TextView
     private var etEmailLogin: TextInputEditText? = null
     private var etPasswordLogin: TextInputEditText? = null
+    private lateinit var tvForgotPassword: TextView
     private val RC_SIGN_IN = 9001
 
     override fun onCreateView(
@@ -56,12 +57,15 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+
         etEmailLogin = view.findViewById<TextInputEditText>(R.id.etEmailLogin)
         etPasswordLogin = view.findViewById<TextInputEditText>(R.id.etPasswordLogin)
         btnSignIn = view.findViewById<Button>(R.id.btnSignIn)
         tvSignUp = view.findViewById<TextView>(R.id.tvSignUp)
         btnGoogle = view.findViewById<SignInButton>(R.id.btnGoogle)
-        navController = Navigation.findNavController(view)
+        tvForgotPassword = view.findViewById<TextView>(R.id.tvForgotPassword)
+
 
         tvSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_signInFragment_to_signUpFragment)
@@ -80,6 +84,10 @@ class SignInFragment : Fragment() {
 
         btnGoogle.setOnClickListener {
             startSignInWithGoogle()
+        }
+
+        tvForgotPassword.setOnClickListener {
+            navController.navigate(R.id.action_signInFragment_to_forgotPasswordFragment)
         }
 
         googleViewModel.authenticatedUserLiveData.observe(viewLifecycleOwner) { isSuccess ->
@@ -115,18 +123,23 @@ class SignInFragment : Fragment() {
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
+    /**/
     private fun getGoogleSignInIntent(): Intent {
+
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
+        // GoogleSignInClient dùng để lấy thông tin mà mình nhập vào
         val googleSignInClient = GoogleSignIn.getClient(
             requireActivity(),
             gso
         )
         return googleSignInClient.signInIntent
     }
+
+    /* requestCode: thể hiện yêu cầu và nên là duy nhất */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -145,6 +158,7 @@ class SignInFragment : Fragment() {
         try {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             val account = task.getResult(ApiException::class.java)
+            Log.d("GoogleCheck","Account: {$account}")
             return account?.idToken
         } catch (e: ApiException) {
             // Xử lý lỗi nếu cần thiết

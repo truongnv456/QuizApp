@@ -1,7 +1,6 @@
 package navigationcomponentturtorialcom.example.quizapp.viewmodel
 
 import navigationcomponentturtorialcom.example.quizapp.repository.AuthRepository
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 

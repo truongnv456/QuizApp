@@ -2,7 +2,6 @@ package navigationcomponentturtorialcom.example.quizapp.repository
 
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObject
 import navigationcomponentturtorialcom.example.quizapp.model.ResultModel
 
 class ResultRepository {

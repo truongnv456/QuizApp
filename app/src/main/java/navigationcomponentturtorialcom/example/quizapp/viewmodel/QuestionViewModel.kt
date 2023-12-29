@@ -1,10 +1,8 @@
 package navigationcomponentturtorialcom.example.quizapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseUser
 import navigationcomponentturtorialcom.example.quizapp.model.QuestionModel
 import navigationcomponentturtorialcom.example.quizapp.repository.QuestionRepository
 
